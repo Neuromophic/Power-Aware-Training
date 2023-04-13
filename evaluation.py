@@ -18,8 +18,8 @@ import sys
 import os
 import pickle
 import torch
-sys.path.append('/pfs/data5/home/kit/tm/px3192/Aging-aware-extension')
-sys.path.append('/pfs/data5/home/kit/tm/px3192/Aging-aware-extension/Aging_Model/')
+sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.getcwd(), 'utils'))
 from utils import *
 from configuration import *
 

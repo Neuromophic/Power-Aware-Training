@@ -48,3 +48,15 @@ def MakeFolder(args):
     if args.recording:
         if not os.path.exists(args.recordpath):
             os.makedirs(args.recordpath)
+
+def FormulateArgs(args):
+    args.DEVICE = CheckDevice(args)
+    if args.e_train == 0.:
+        args.N_train = 1
+    if args.MODE=='nominal':
+        args.M_train = 1
+        args.K_train = 1
+    if args.InputNoise==0.:
+        args.R_train = 1
+    return args
+    

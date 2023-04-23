@@ -281,7 +281,8 @@ class pLayer(torch.nn.Module):
         N_neg = torch.sum(negative)
         power = self.INV.power * N_neg
         # backward pass: power of neg * value of negative weights
-        soft_N_neg = torch.nn.functional.relu(-self.theta_).sum()
+        soft_N_neg = (1. - torch.sigmoid(self.theta_+self.args.gmin)).sum()
+        # soft_N_neg = torch.nn.functional.relu(-self.theta_).sum()
         power_relaxed = self.INV.power * soft_N_neg
         return power.detach() + power_relaxed - power_relaxed.detach()
 

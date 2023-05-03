@@ -23,6 +23,6 @@ class Evaluator(torch.nn.Module):
             self.performance = self.nominal
         elif self.args.metric == 'maa':
             self.performance = self.maa
-        return self.performance(nn(x), label)
+        return self.performance(nn(x), label), nn.Power()
     
   

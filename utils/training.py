@@ -29,7 +29,7 @@ def train_pnn(nn, train_loader, valid_loader, lossfunction, optimizer, args, log
             msg += f'hyperparameters in printed neural network for training :\nepoch : {epoch:-6d} |\n'
             
             L_train = lossfunction(nn, x_train, y_train)
-            train_acc = evaluator(nn, x_train, y_train)
+            train_acc, train_power = evaluator(nn, x_train, y_train)
             optimizer.zero_grad()
             L_train.backward()
             optimizer.step()
@@ -39,7 +39,7 @@ def train_pnn(nn, train_loader, valid_loader, lossfunction, optimizer, args, log
                 msg += f'hyperparameters in printed neural network for validation :\nepoch : {epoch:-6d} |\n'
                 
                 L_valid = lossfunction(nn, x_valid, y_valid)
-                valid_acc = evaluator(nn, x_valid, y_valid)
+                valid_acc, valid_power = evaluator(nn, x_valid, y_valid)
         
         logger.debug(msg)
         
@@ -66,8 +66,8 @@ def train_pnn(nn, train_loader, valid_loader, lossfunction, optimizer, args, log
             logger.warning('Time limination reached.')
             break
         
-        print(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience:-3d} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {nn.Power().item():.2e} |')
-        logger.info(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience:-3d} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {nn.Power().item():.2e} |')
+        print(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience:-3d} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {train_power.item():.2e} |')
+        logger.info(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience:-3d} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {train_power.item():.2e} |')
         
     _, resulted_nn, _,_ = load_checkpoint(UUID, args.temppath)
     
@@ -110,7 +110,7 @@ def train_pnn_progressive(nn, train_loader, valid_loader, lossfunction, optimize
             msg += f'hyperparameters in printed neural network for training :\nepoch : {epoch:-6d} |\n'
             
             L_train = lossfunction(nn, x_train, y_train)
-            train_acc = evaluator(nn, x_train, y_train)
+            train_acc, train_power = evaluator(nn, x_train, y_train)
             optimizer.zero_grad()
             L_train.backward()
             optimizer.step()
@@ -120,7 +120,7 @@ def train_pnn_progressive(nn, train_loader, valid_loader, lossfunction, optimize
                 msg += f'hyperparameters in printed neural network for validation :\nepoch : {epoch:-6d} |\n'
                 
                 L_valid = lossfunction(nn, x_valid, y_valid)
-                valid_acc = evaluator(nn, x_valid, y_valid)
+                valid_acc, valid_power = evaluator(nn, x_valid, y_valid)
         
         logger.debug(msg)
         
@@ -162,8 +162,8 @@ def train_pnn_progressive(nn, train_loader, valid_loader, lossfunction, optimize
             logger.warning('Time limination reached.')
             break
         
-        print(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience_lr:-3d} | lr: {current_lr} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {nn.Power().item():.2e} |')
-        logger.info(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience_lr:-3d} | lr: {current_lr} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {nn.Power().item():.2e} |')
+        print(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience_lr:-3d} | lr: {current_lr} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {train_power.item():.2e} |')
+        logger.info(f'| Epoch: {epoch:-6d} | Train loss: {L_train.item():.4f} | Valid loss: {L_valid.item():.4f} | Train acc: {train_acc:.4f} | Valid acc: {valid_acc:.4f} | patience: {patience_lr:-3d} | lr: {current_lr} | Epoch time: {end_epoch_time-start_epoch_time:.1f} | Power: {train_power.item():.2e} |')
         
     _, resulted_nn, _,_ = load_checkpoint(UUID, args.temppath)
     

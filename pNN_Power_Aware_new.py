@@ -288,7 +288,7 @@ class pLayer(torch.nn.Module):
         # backward pass: power of neg * value of negative weights
         soft_count = 1 - torch.sigmoid(self.theta[:-1,:])
         soft_count = soft_count * negative
-        soft_count = soft_count.max(0)[0].sum()
+        soft_count = soft_count.max(1)[0].sum()
         # soft_N_neg = torch.nn.functional.relu(-self.theta_).sum()
         power_relaxed = self.INV.power * soft_count
         return power.detach() + power_relaxed - power_relaxed.detach()

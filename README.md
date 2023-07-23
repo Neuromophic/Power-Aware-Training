@@ -4,7 +4,7 @@ This github repository is for the paper at ICCAD'23 - Power-Aware Training for P
 
 cite as
 ```
-Power-Aware Training for Printed Neuromorphic Circuits
+Power-Aware Training for Energy-Efficient Printed Neuromorphic Circuits
 Zhao, H.; Pal, P.; Hefenbrock, M.; Beigl, M.; Tahoori, M.
 2023 International Conference on Computer-Aided Design (ICCAD), October, 2023 IEEE/ACM.
 ```

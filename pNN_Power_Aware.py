@@ -273,19 +273,24 @@ class pLayer(torch.nn.Module):
                     (x_extend[:, m]*positive[m, n]+x_neg[:, m]*negative[m, n])-y[:, n]).pow(2.).sum()
         Power = Power / E
         return Power
-
+    
     @property
     def neg_power(self):
         # forward pass: power of neg * number of negative weights
-        positive = self.theta.clone().detach().to(self.device)
+        positive = self.theta.clone().detach()[:-1,:]
         positive[positive >= 0] = 1.
+        positive[positive <  0] = 0.
         negative = 1. - positive
-        N_neg = torch.sum(negative)
+        N_neg = negative.sum(1)
+        N_neg[N_neg>0] = 1.
+        N_neg = N_neg.sum()
         power = self.INV.power * N_neg
         # backward pass: power of neg * value of negative weights
-        soft_N_neg = (1. - torch.sigmoid(self.theta_+self.args.gmin)).sum()
+        soft_count = 1 - torch.sigmoid(self.theta[:-1,:])
+        soft_count = soft_count * negative
+        soft_count = soft_count.max(1)[0].sum()
         # soft_N_neg = torch.nn.functional.relu(-self.theta_).sum()
-        power_relaxed = self.INV.power * soft_N_neg
+        power_relaxed = self.INV.power * soft_count
         return power.detach() + power_relaxed - power_relaxed.detach()
 
     @property

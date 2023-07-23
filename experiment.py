@@ -15,7 +15,7 @@ sys.path.append(os.path.join(os.getcwd(), 'utils'))
 from configuration import *
 import torch
 import pprint
-import pNN_Power_Aware_new as pNN
+import pNN_Power_Aware as pNN
 from utils import *
 
 args = parser.parse_args()
